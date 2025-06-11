@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Home from "../pages/Home/Home";
 import AvailableCars from "../pages/AvailableCars";
+import CarDetails from "../pages/CarDetails";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "available-cars",
         Component: AvailableCars,
+      },
+      {
+        path: "car/:id",
+        Component: CarDetails,
       },
     ],
   },
