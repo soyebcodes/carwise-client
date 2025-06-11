@@ -4,23 +4,36 @@ import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { FaThList, FaThLarge, FaLocationArrow } from "react-icons/fa";
 import { Link } from "react-router";
+import Loading from "./Loading";
 
 const AvailableCars = () => {
   const [cars, setCars] = useState([]);
   const [viewMode, setViewMode] = useState("grid");
   const [sortBy, setSortBy] = useState("");
   const [order, setOrder] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const fetchCars = async () => {
-    const res = await axios.get(
-      `http://localhost:5000/available-cars?sortBy=${sortBy}&order=${order}`
-    );
-    setCars(res.data);
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/available-cars?sortBy=${sortBy}&order=${order}`
+      );
+      setCars(res.data);
+    } catch (err) {
+      console.error("Failsed to fetch cars", err);
+    } finally {
+      setLoading(false);
+    }
   };
-
   useEffect(() => {
+    setLoading(true);
     fetchCars();
   }, [sortBy, order]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
