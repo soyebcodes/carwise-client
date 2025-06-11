@@ -1,5 +1,13 @@
 import { NavLink, useNavigate } from "react-router";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "../components/ui/dropdown-menu";
 import { Button } from "../components/ui/button";
 import { AuthContext } from "../context/AuthContext";
 import {
@@ -58,20 +66,25 @@ const Navbar = () => {
   ];
 
   const linkClass = ({ isActive }) =>
-    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${
+    `flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
       isActive
-        ? "text-orange-600 underline"
-        : "text-muted-foreground hover:text-orange-500"
+        ? "text-sky-600 underline"
+        : "text-muted-foreground hover:text-sky-600"
     }`;
 
   return (
     <nav className="bg-white dark:bg-gray-900 border-b shadow-sm">
       <div className="max-w-11/12 mx-auto px-4 py-3 flex items-center justify-between">
-        <NavLink to="/" className="text-xl font-bold text-orange-600">
+        {/* loogo */}
+        <NavLink
+          to="/"
+          className="text-xl font-bold text-sky-700 dark:text-sky-500"
+        >
           CarWise
         </NavLink>
 
-        <div className="hidden md:flex items-center space-x-4">
+        {/* desktop menu */}
+        <div className="hidden md:flex  items-center space-x-4">
           {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to} className={linkClass}>
               {link.icon}
@@ -79,32 +92,66 @@ const Navbar = () => {
             </NavLink>
           ))}
 
+          {/* Auth user profile */}
           {user ? (
-            <>
-              {user.photoURL ? (
-                <img
-                  src={user.photoURL}
-                  alt="User"
-                  className="w-8 h-8 rounded-full ring-2 ring-orange-400"
-                />
-              ) : (
-                <UserCircle className="text-orange-400 w-7 h-7" />
-              )}
-              <Button variant="destructive" size="sm" onClick={handleLogout}>
-                <LogOut className="w-4 h-4 mr-1" />
-                Logout
-              </Button>
-            </>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User"
+                    className="w-8 h-8 rounded-full ring-2 ring-sky-500 cursor-pointer"
+                    title={user.displayName || "User name"}
+                  />
+                ) : (
+                  <UserCircle
+                    title={user.displayName || "User name"}
+                    className="text-sky-500 w-7 h-7 cursor-pointer"
+                  />
+                )}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48" align="end">
+                <DropdownMenuLabel>
+                  {user.displayName || "Logged In"}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => navigate("/add-car")}
+                  className="cursor-pointer"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Car
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate("/my-cars")}
+                  className="cursor-pointer"
+                >
+                  <List className="w-4 h-4 mr-2" />
+                  My Cars
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate("/bookings")}
+                  className="cursor-pointer"
+                >
+                  <CalendarCheck className="w-4 h-4 mr-2" />
+                  My Bookings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-red-600 cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive
-                  ? "btn btn-md bg-amber-700 text-white"
-                  : "btn btn-md bg-amber-600 text-white hover:bg-amber-700"
-              }
-            >
-              Login
+            <NavLink to="/login">
+              <Button className="rounded-full px-4 py-2 text-sm font-medium bg-sky-600 text-white hover:bg-sky-700 transition cursor-pointer">
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+              </Button>
             </NavLink>
           )}
 
@@ -136,24 +183,18 @@ const Navbar = () => {
 
                 {user ? (
                   <Button
-                    variant="destructive"
-                    size="sm"
-                    className="mt-2"
                     onClick={handleLogout}
+                    className="rounded-full mt-2 px-4 py-2 text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition cursor-pointer"
                   >
-                    <LogOut className="w-4 h-4 mr-1" />
+                    <LogOut className="w-4 h-4 mr-2" />
                     Logout
                   </Button>
                 ) : (
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "btn btn-md bg-amber-700 text-white"
-                        : "btn btn-md bg-amber-600 text-white hover:bg-amber-700"
-                    }
-                  >
-                    Login
+                  <NavLink to="/login">
+                    <Button className="rounded-full px-4 py-2 text-sm font-medium bg-sky-600 text-white hover:bg-sky-700 transition cursor-pointer">
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Login
+                    </Button>
                   </NavLink>
                 )}
               </div>
