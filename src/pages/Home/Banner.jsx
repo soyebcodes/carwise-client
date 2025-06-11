@@ -2,12 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
-import bannerImg from "../assets/images/banner-img2.jpg";
+import bannerImg from "../../assets/images/banner-img2.jpg";
 
 const Banner = () => {
   return (
     <section
-      className="max-w-11/12 mx-auto relative h-[65vh] md:h-[75vh] lg:h-[85vh] xl:h-[90vh] w-full bg-cover bg-center bg-no-repeat flex items-center justify-center text-white text-center rounded-2xl"
+      className="max-w-11/12 mx-auto relative h-[65vh] md:h-[75vh] lg:h-[85vh] xl:h-[90vh] w-full bg-cover bg-center bg-no-repeat flex items-center justify-center text-white text-center rounded-2xl my-7"
       style={{
         backgroundImage: `url(${bannerImg})`,
       }}
@@ -22,7 +22,7 @@ const Banner = () => {
           Drive Your Dreams Today!
         </h1>
 
-        <Link to="/available">
+        <Link to="/available-cars">
           <Button className="text-lg px-5 py-6 bg-sky-600 hover:bg-sky-700 shadow-lg cursor-pointer">
             View Available Cars
           </Button>

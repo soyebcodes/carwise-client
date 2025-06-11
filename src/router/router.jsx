@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router";
-import Home from "../pages/Home";
 import MainLayout from "../layouts/MainLayout";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Home from "../pages/Home/Home";
+import AvailableCars from "../pages/AvailableCars";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         Component: Register,
+      },
+      {
+        path: "available-cars",
+        Component: AvailableCars,
       },
     ],
   },
