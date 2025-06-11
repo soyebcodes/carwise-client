@@ -95,31 +95,41 @@ const AvailableCars = () => {
           ))}
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-8">
           {cars.map((car) => (
-            <Card key={car._id} className="flex gap-4 p-4 items-center">
+            <div
+              key={car._id}
+              className="flex items-start gap-10 p-4 border rounded-md shadow-sm"
+            >
               <img
                 src={car.imageUrl}
                 alt={car.model}
-                className="h-32 w-48 object-cover rounded"
+                className="h-38 w-48 object-cover rounded-md flex-shrink-0"
               />
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">{car.model}</h2>
-                <p className="text-muted-foreground my-2">
-                  ${car.pricePerDay}/day
-                </p>
-                <p className="flex items-center gap-2 my-2">
-                  <FaLocationArrow /> {car.location}
-                </p>
-                <p className="text-sm text-green-600 font-medium my-2">
-                  {car.availability.charAt(0).toUpperCase() +
-                    car.availability.slice(1)}
-                </p>
+
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold">{car.model}</h2>
+                  <p className="text-muted-foreground mt-1">
+                    ${car.pricePerDay}/day
+                  </p>
+                  <p className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                    <FaLocationArrow className="text-gray-500" />
+                    {car.location}
+                  </p>
+                  <p className="text-sm text-green-600 font-medium mt-1">
+                    {car.availability.charAt(0).toUpperCase() +
+                      car.availability.slice(1)}
+                  </p>
+                </div>
+
+                <div className="mt-4">
+                  <Link to={`/car/${car._id}`}>
+                    <Button size="sm">Book Now</Button>
+                  </Link>
+                </div>
               </div>
-              <Link to={`/car/${car._id}`}>
-                <Button>Book Now</Button>
-              </Link>
-            </Card>
+            </div>
           ))}
         </div>
       )}

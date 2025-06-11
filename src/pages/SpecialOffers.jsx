@@ -30,7 +30,7 @@ const offers = [
 
 const SpecialOffers = () => {
   return (
-    <div className="py-16 px-4 md:px-10 bg-gray-100">
+    <div className="max-w-11/12 mx-auto py-16 px-4 md:px-10 bg-gray-100">
       <h2 className="text-3xl font-bold text-center mb-10">
         🎁 Specail Offers
       </h2>
