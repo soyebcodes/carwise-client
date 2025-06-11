@@ -5,6 +5,8 @@ import { Button } from "../components/ui/button";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import toast from "react-hot-toast";
+import registerAnimation from "../assets/lottie-animations/register-animation.json";
+import Lottie from "lottie-react";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -43,35 +45,44 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 mt-24">
-      <h2 className="text-2xl font-bold text-center text-primary mb-12">
-        Register to Savor Book
-      </h2>
-      <form onSubmit={handleRegister} className="space-y-4">
-        <Input type="text" name="name" placeholder="Name" required />
-
-        <Input type="email" name="email" placeholder="Email" required />
-
-        <Input type="text" name="photoURL" placeholder="Photo URL" required />
-
-        <Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-muted p-6 gap-10">
+      {/* Lottie animation */}
+      <div className="w-full max-w-md">
+        <Lottie
+          animationData={registerAnimation}
+          loop={true}
+          className="w-full max-h-[350px] object-contain"
         />
+      </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-center text-primary mb-6">
+          Register to CarWise
+        </h2>
 
-        <Button>Register</Button>
-      </form>
+        <form onSubmit={handleRegister} className="space-y-4">
+          <Input type="text" name="name" placeholder="Name" required />
+          <Input type="email" name="email" placeholder="Email" required />
+          <Input type="text" name="photoURL" placeholder="Photo URL" required />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
 
-      <p className="mt-4 text-sm text-center">
-        Already have an account?
-        <Link to="/login" className="text-blue-600 ml-2">
-          Login
-        </Link>
-      </p>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <Button className="w-full cursor-pointer">Register</Button>
+        </form>
+
+        <p className="mt-4 text-sm text-center">
+          Already have an account?
+          <Link to="/login" className="text-blue-600 ml-1 hover:underline">
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
