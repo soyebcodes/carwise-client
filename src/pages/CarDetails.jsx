@@ -61,8 +61,13 @@ const CarDetails = () => {
         toast.success("Booking confirmed!");
         setIsDialogOpen(false);
       })
-
-      .catch(() => toast.error("Booking failed!"))
+      .catch((err) => {
+        if (err.response?.status === 400) {
+          toast.error(err.response.data.message || "Already booked.");
+        } else {
+          toast.error("Booking failed!");
+        }
+      })
       .finally(() => setBookingLoading(false));
   };
 
@@ -80,7 +85,7 @@ const CarDetails = () => {
       <p className="text-xl text-gray-800">${car.pricePerDay}/day</p>
       <p className="text-gray-600">Location: {car.location}</p>
       <p className="text-gray-600">
-        Availability:
+        Status:
         <span className="font-medium capitalize text-green-700">
           {car.availability}
         </span>
