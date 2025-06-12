@@ -86,7 +86,7 @@ const AvailableCars = () => {
                     car.availability.slice(1)}
                 </p>
                 <Link to={`/cars/${car._id}`}>
-                  <Button className="w-full mt-2 cursor-pointer">
+                  <Button className="bg-primary w-full mt-2 cursor-pointer">
                     Book Now
                   </Button>
                 </Link>
@@ -125,7 +125,9 @@ const AvailableCars = () => {
 
                 <div className="mt-4">
                   <Link to={`/cars/${car._id}`}>
-                    <Button size="sm">Book Now</Button>
+                    <Button size="sm" className="cursor-pointer">
+                      Book Now
+                    </Button>
                   </Link>
                 </div>
               </div>

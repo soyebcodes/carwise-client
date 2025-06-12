@@ -21,6 +21,8 @@ const CarDetails = () => {
   const { user } = use(AuthContext);
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -40,6 +42,9 @@ const CarDetails = () => {
       toast.error("No car data available.");
       return;
     }
+    if (bookingLoading) return;
+
+    setBookingLoading(true);
 
     const bookingData = {
       userEmail: user.email,
@@ -52,8 +57,13 @@ const CarDetails = () => {
 
     axios
       .post("http://localhost:5000/bookings", bookingData)
-      .then(() => toast.success("Booking confirmed!"))
-      .catch(() => toast.error("Booking failed!"));
+      .then(() => {
+        toast.success("Booking confirmed!");
+        setIsDialogOpen(false);
+      })
+
+      .catch(() => toast.error("Booking failed!"))
+      .finally(() => setBookingLoading(false));
   };
 
   if (loading || !car) return <Loading />;
@@ -78,9 +88,12 @@ const CarDetails = () => {
       <p className="text-gray-600">Features: {car.features.join(", ")}</p>
       <p className="text-gray-700">{car.description}</p>
 
-      <Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button className="w-full bg-lime-700 hover:bg-lime-800 text-white mt-4 cursor-pointer">
+          <Button
+            className="w-full bg-primary text-white mt-4 cursor-pointer"
+            onClick={() => setIsDialogOpen(true)}
+          >
             Book Now
           </Button>
         </DialogTrigger>
@@ -103,8 +116,9 @@ const CarDetails = () => {
           <Button
             onClick={handleBooking}
             className="bg-primary w-full cursor-pointer"
+            disabled={bookingLoading}
           >
-            Confirm Booking
+            {bookingLoading ? "Booking..." : "Confirm Booking"}
           </Button>
         </DialogContent>
       </Dialog>
