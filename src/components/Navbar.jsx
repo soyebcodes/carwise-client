@@ -57,7 +57,7 @@ const Navbar = () => {
             icon: <List className="w-4 h-4 mr-2" />,
           },
           {
-            to: "/bookings",
+            to: "/my-bookings",
             label: "My Bookings",
             icon: <CalendarCheck className="w-4 h-4 mr-2" />,
           },
