@@ -6,6 +6,7 @@ import Home from "../pages/Home/Home";
 import AvailableCars from "../pages/AvailableCars";
 import CarDetails from "../pages/CarDetails";
 import AddCar from "../pages/AddCar";
+import MyCars from "../pages/MyCars";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "add-car",
         Component: AddCar,
+      },
+      {
+        path: "my-cars",
+        Component: MyCars,
       },
     ],
   },
