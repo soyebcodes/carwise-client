@@ -40,7 +40,7 @@ const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Home", icon: <Home className="w-4 h-4 mr-2" /> },
     {
-      to: "/available",
+      to: "/available-cars",
       label: "Available Cars",
       icon: <Car className="w-4 h-4 mr-2" />,
     },

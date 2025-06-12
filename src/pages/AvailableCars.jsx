@@ -21,7 +21,7 @@ const AvailableCars = () => {
       );
       setCars(res.data);
     } catch (err) {
-      console.error("Failsed to fetch cars", err);
+      console.error("Failed to fetch cars", err);
     } finally {
       setLoading(false);
     }

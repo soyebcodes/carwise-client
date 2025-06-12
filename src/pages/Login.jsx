@@ -20,6 +20,7 @@ import auth from "../firebase/firebase.config";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import loginAnimation from "../assets/lottie-animations/login-animation.json";
+import axios from "axios";
 
 const Login = () => {
   const { setUser } = useContext(AuthContext);
@@ -32,30 +33,44 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        toast.success("Login successful!");
-        setUser(result.user);
-        navigate(from, { replace: true });
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      })
-      .finally(() => setLoading(false));
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+
+      // send email backend to get the jwt and set cookie
+      await axios.post(
+        "http://localhost:5000/jwt",
+        { email: result.user.email },
+        { withCredentials: true }
+      );
+      toast.success("Login successful!");
+      setUser(result.user);
+      navigate(from, { replace: true });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         toast.success("Google Login successful!");
         setUser(result.user);
+
+        // send email to backend to recieve jwt in  cookie
+        await axios.post(
+          "http://localhost:5000/jwt",
+          { email: result.user.email },
+          { withCredentials: true }
+        );
         navigate(from, { replace: true });
       })
       .catch((error) => {
@@ -92,7 +107,11 @@ const Login = () => {
                 Forgot password?
               </Link>
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={loading}
+            >
               {loading ? "Logging in..." : "Login"}
             </Button>
           </form>
@@ -109,7 +128,7 @@ const Login = () => {
           </Button>
 
           <p className="text-sm text-center mt-4">
-            Don’t have an account?{" "}
+            Don’t have an account?
             <Link to="/register" className="text-blue-500 hover:underline">
               Register here
             </Link>
