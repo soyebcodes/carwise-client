@@ -5,6 +5,7 @@ import { Textarea } from "../components/ui/textarea";
 import { Input } from "../components/ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router";
 
 const AddCar = () => {
   const [loading, setLoading] = useState(false);
@@ -30,10 +31,12 @@ const AddCar = () => {
         withCredentials: true,
       });
       if (res.data.insertedId) {
-        toast.success("Car add succes");
+        toast.success("Car added successfully!");
+        form.reset();
+        Navigate("/my-cars");
       }
     } catch (error) {
-      toast.error("Failed to add.", error);
+      toast.error("Failed to add car.", error);
     } finally {
       setLoading(false);
     }
@@ -51,7 +54,7 @@ const AddCar = () => {
         <Input
           name="price"
           type="number"
-          placeholder="Daily Rental price Bdt"
+          placeholder="Daily Rental Price"
           required
         />
         <Input
@@ -61,11 +64,15 @@ const AddCar = () => {
         />
         <Input
           name="registration"
-          placeholder="Vehicale registration number"
+          placeholder="Vehicale Registration Number"
           required
         />
-        <Input name="features" placeholder="Features (use comma)" required />
-        <Input name="image" placeholder="Image Urlr" required />
+        <Input
+          name="features"
+          placeholder="Features (comma separated)"
+          required
+        />
+        <Input name="image" placeholder="Image URL" required />
         <Input name="location" placeholder="Location" required />
         <Textarea
           name="description"
