@@ -85,7 +85,7 @@ const AvailableCars = () => {
                   {car.availability.charAt(0).toUpperCase() +
                     car.availability.slice(1)}
                 </p>
-                <Link to={`/car/${car._id}`}>
+                <Link to={`/cars/${car._id}`}>
                   <Button className="w-full mt-2 cursor-pointer">
                     Book Now
                   </Button>
@@ -124,7 +124,7 @@ const AvailableCars = () => {
                 </div>
 
                 <div className="mt-4">
-                  <Link to={`/car/${car._id}`}>
+                  <Link to={`/cars/${car._id}`}>
                     <Button size="sm">Book Now</Button>
                   </Link>
                 </div>

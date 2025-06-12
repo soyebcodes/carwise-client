@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         Component: AvailableCars,
       },
       {
-        path: "car/:id",
+        path: "cars/:id",
         Component: CarDetails,
       },
       {
