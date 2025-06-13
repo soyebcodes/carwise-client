@@ -65,7 +65,7 @@ const MyCars = () => {
       registrationNumber: form.registration.value,
       features: form.features.value.split(",").map((f) => f.trim()),
       description: form.description.value,
-      image: form.imageUrl.value,
+      imageUrl: form.imageUrl.value,
       location: form.location.value,
     };
 

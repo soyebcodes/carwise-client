@@ -30,7 +30,7 @@ const RecentListing = () => {
             className="border rounded-lg overflow-hidden shadow-md"
           >
             <img
-              src={car.imageUrl}
+              src={car.imageUrl || car.image}
               alt=""
               className="h-48 w-full object-cover"
             />

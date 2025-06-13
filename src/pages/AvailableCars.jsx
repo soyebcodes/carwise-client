@@ -71,7 +71,7 @@ const AvailableCars = () => {
           {cars.map((car) => (
             <Card key={car._id}>
               <img
-                src={car.imageUrl}
+                src={car.imageUrl || car.image}
                 alt={car.model}
                 className="h-48 w-full object-cover rounded-t"
               />
@@ -102,7 +102,7 @@ const AvailableCars = () => {
               className="flex items-start gap-10 p-4 border rounded-md shadow-sm"
             >
               <img
-                src={car.imageUrl}
+                src={car.imageUrl || car.image}
                 alt={car.model}
                 className="h-38 w-48 object-cover rounded-md flex-shrink-0"
               />

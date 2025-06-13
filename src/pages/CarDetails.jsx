@@ -73,7 +73,7 @@ const CarDetails = () => {
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
       <img
-        src={car.imageUrl}
+        src={car.imageUrl || car.image}
         alt={car.model}
         className="w-full h-full object-cover rounded-md"
       />
