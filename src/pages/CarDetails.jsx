@@ -82,7 +82,7 @@ const CarDetails = () => {
       <p className="text-xl text-gray-800">${car.pricePerDay}/day</p>
       <p className="text-gray-600">Location: {car.location}</p>
       <p className="text-gray-600">
-        Status:
+        Status:{" "}
         <span className="font-medium capitalize text-green-700">
           {car.availability}
         </span>

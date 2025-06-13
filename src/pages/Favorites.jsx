@@ -1,14 +1,15 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "../components/ui/button";
 import { HeartOff } from "lucide-react";
 import { Link } from "react-router";
+import Loading from "./Loading";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -16,12 +17,13 @@ const Favorites = () => {
         const { data } = await axios.get("http://localhost:5000/favorites", {
           withCredentials: true,
         });
-        // console.log("Recieve favorite car", data);
 
         setFavorites(data);
         setCars(data.map((fav) => fav.car));
       } catch (error) {
         toast.error("Error loading favorites");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -33,13 +35,16 @@ const Favorites = () => {
       await axios.delete(`http://localhost:5000/favorites/${carId}`, {
         withCredentials: true,
       });
-      setFavorites(favorites.filter((id) => id !== carId));
+
+      setFavorites(favorites.filter((fav) => fav.carId !== carId));
       setCars(cars.filter((car) => car._id !== carId));
       toast.success("Removed from favorites");
     } catch (error) {
       toast.error("Error removing favorite");
     }
   };
+
+  if (loading) return <Loading />;
 
   if (!cars.length) {
     return (
@@ -48,19 +53,18 @@ const Favorites = () => {
         <Link to="/available-cars" className="text-blue-500 underline">
           available cars
         </Link>
-        .
       </div>
     );
   }
 
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="max-w-11/12 mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {cars.map((car) => (
         <div key={car._id} className="border p-4 rounded shadow relative">
           <img
             src={car.imageUrl || car.image}
             alt={car.model}
-            className="w-full h-40 object-cover rounded mb-2"
+            className="w-full h-50 object-cover rounded mb-2"
           />
           <h2 className="text-xl font-semibold">{car.model}</h2>
           <p className="text-gray-600">
@@ -71,7 +75,7 @@ const Favorites = () => {
           </p>
           <Button
             onClick={() => removeFavorite(car._id)}
-            className="absolute top-2 right-2"
+            className="absolute top-4 right-4 cursor-pointer"
             variant="ghost"
           >
             <HeartOff className="text-red-500" />

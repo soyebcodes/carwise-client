@@ -9,6 +9,12 @@ import Loading from "./Loading";
 import toast from "react-hot-toast";
 import { HeartOff } from "lucide-react";
 import { Heart } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../components/ui/tooltip";
 
 const AvailableCars = () => {
   const [cars, setCars] = useState([]);
@@ -172,17 +178,30 @@ const AvailableCars = () => {
                   {car.availability.charAt(0).toUpperCase() +
                     car.availability.slice(1)}
                 </p>
-                <Button
-                  variant="ghost"
-                  className="absolute top-6 right-2 cursor-pointer"
-                  onClick={() => toggleFavorite(car._id)}
-                >
-                  {favoriteIds.includes(car._id) ? (
-                    <Heart className="text-red-500 h-14 w-1/4" />
-                  ) : (
-                    <HeartOff className="text-gray-400" />
-                  )}
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="absolute top-6 right-2 cursor-pointer"
+                        onClick={() => toggleFavorite(car._id)}
+                      >
+                        {favoriteIds.includes(car._id) ? (
+                          <Heart className="text-red-500 w-5 h-5" fill="red" />
+                        ) : (
+                          <HeartOff className="text-gray-200 w-5 h-5" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" align="center">
+                      <p>
+                        {favoriteIds.includes(car._id)
+                          ? "Remove from favorites"
+                          : "Add this car to your favorites"}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
                 <Link to={`/cars/${car._id}`}>
                   <Button className="bg-primary w-full mt-2 cursor-pointer">
@@ -223,17 +242,33 @@ const AvailableCars = () => {
                 </div>
 
                 <div className="mt-4">
-                  <Button
-                    variant="ghost"
-                    onClick={() => toggleFavorite(car._id)}
-                    className="mr-2 cursor-pointer"
-                  >
-                    {favoriteIds.includes(car._id) ? (
-                      <Heart className="text-red-500" />
-                    ) : (
-                      <HeartOff className="text-gray-400" />
-                    )}
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="cursor-pointer"
+                          onClick={() => toggleFavorite(car._id)}
+                        >
+                          {favoriteIds.includes(car._id) ? (
+                            <Heart
+                              className="text-red-500 w-5 h-5"
+                              fill="red"
+                            />
+                          ) : (
+                            <HeartOff className="text-gray-200 w-5 h-5" />
+                          )}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" align="center">
+                        <p>
+                          {favoriteIds.includes(car._id)
+                            ? "Remove from favorites"
+                            : "Add this car to your favorites"}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
 
                   <Link to={`/cars/${car._id}`}>
                     <Button size="sm" className="cursor-pointer">

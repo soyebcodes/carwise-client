@@ -2,10 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loading from "../Loading";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import { Heart, HeartOff } from "lucide-react";
+import { Button } from "../../components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../components/ui/tooltip";
 
 const RecentListing = () => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [favoriteIds, setFavoriteIds] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:5000/cars").then((res) => {
@@ -16,6 +26,45 @@ const RecentListing = () => {
       setLoading(false);
     });
   }, []);
+
+  // favorite
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/favorites", {
+          withCredentials: true,
+        });
+        const ids = res.data.map((fav) => fav.carId);
+        setFavoriteIds(ids);
+      } catch (error) {
+        console.error("Error on favoites", error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  const toggleFavorite = async (carId) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/favorites/${carId}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.favorited) {
+        setFavoriteIds([...favoriteIds, carId]);
+        toast.success("Added to favorites");
+      } else {
+        setFavoriteIds(favoriteIds.filter((id) => id !== carId));
+        toast.success("Removed from favorites");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -80,11 +129,37 @@ const RecentListing = () => {
             whileHover="hover"
             custom={i}
           >
-            <img
-              src={car.imageUrl || car.image}
-              alt=""
-              className="h-48 w-full object-cover"
-            />
+            <div className="relative">
+              <img
+                src={car.imageUrl || car.image}
+                alt={car.model}
+                className="h-48 w-full object-cover"
+              />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={() => toggleFavorite(car._id)}
+                      className="absolute top-2 right-2 bg-white/80 rounded-full p-1 shadow-md hover:bg-white transition cursor-pointer"
+                    >
+                      {favoriteIds.includes(car._id) ? (
+                        <Heart className="text-red-500 w-5 h-5" fill="red" />
+                      ) : (
+                        <HeartOff className="text-gray-500 w-5 h-5" />
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" align="center">
+                    <p>
+                      {favoriteIds.includes(car._id)
+                        ? "Remove from favorites"
+                        : "Add this car to your favorites"}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+
             <div className="p-4">
               <h3 className="font-semibold text-lg">{car.model}</h3>
               <p className="text-sm text-gray-600">${car.pricePerDay}/day</p>
