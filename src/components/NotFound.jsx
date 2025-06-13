@@ -15,10 +15,7 @@ const NotFound = () => {
       <p className="text-gray-600 mb-6">
         Oops! The page you're looking for doesn't exist.
       </p>
-      <Button
-        onClick={() => navigate("/")}
-        className="text-white cursor-pointer"
-      >
+      <Button onClick={() => navigate("/")} className="cursor-pointer">
         Back to Home
       </Button>
     </div>
