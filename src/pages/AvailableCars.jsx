@@ -6,6 +6,9 @@ import { Card, CardContent } from "../components/ui/card";
 import { FaThList, FaThLarge, FaLocationArrow } from "react-icons/fa";
 import { Link } from "react-router";
 import Loading from "./Loading";
+import toast from "react-hot-toast";
+import { HeartOff } from "lucide-react";
+import { Heart } from "lucide-react";
 
 const AvailableCars = () => {
   const [cars, setCars] = useState([]);
@@ -15,6 +18,7 @@ const AvailableCars = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [favoriteIds, setFavoriteIds] = useState([]);
 
   // debounce function
   useEffect(() => {
@@ -34,8 +38,8 @@ const AvailableCars = () => {
         `http://localhost:5000/available-cars?sortBy=${sortBy}&order=${order}`
       );
       setCars(res.data);
-    } catch (err) {
-      console.error("Failed to fetch cars", err);
+    } catch (error) {
+      console.error("Failed to fetch car", error);
     } finally {
       setLoading(false);
     }
@@ -55,6 +59,45 @@ const AvailableCars = () => {
       car.location.toLowerCase().includes(lower)
     );
   });
+
+  // favorite
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/favorites", {
+          withCredentials: true,
+        });
+        const ids = res.data.map((fav) => fav.carId);
+        setFavoriteIds(ids);
+      } catch (error) {
+        console.error("Error on favoites", error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  const toggleFavorite = async (carId) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/favorites/${carId}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.favorited) {
+        setFavoriteIds([...favoriteIds, carId]);
+        toast.success("Added to favorites");
+      } else {
+        setFavoriteIds(favoriteIds.filter((id) => id !== carId));
+        toast.success("Removed from favorites");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -113,7 +156,7 @@ const AvailableCars = () => {
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCars.map((car) => (
-            <Card key={car._id}>
+            <Card key={car._id} className="relative">
               <img
                 src={car.imageUrl || car.image}
                 alt={car.model}
@@ -129,6 +172,18 @@ const AvailableCars = () => {
                   {car.availability.charAt(0).toUpperCase() +
                     car.availability.slice(1)}
                 </p>
+                <Button
+                  variant="ghost"
+                  className="absolute top-6 right-2 cursor-pointer"
+                  onClick={() => toggleFavorite(car._id)}
+                >
+                  {favoriteIds.includes(car._id) ? (
+                    <Heart className="text-red-500 h-14 w-1/4" />
+                  ) : (
+                    <HeartOff className="text-gray-400" />
+                  )}
+                </Button>
+
                 <Link to={`/cars/${car._id}`}>
                   <Button className="bg-primary w-full mt-2 cursor-pointer">
                     Book Now
@@ -168,6 +223,18 @@ const AvailableCars = () => {
                 </div>
 
                 <div className="mt-4">
+                  <Button
+                    variant="ghost"
+                    onClick={() => toggleFavorite(car._id)}
+                    className="mr-2 cursor-pointer"
+                  >
+                    {favoriteIds.includes(car._id) ? (
+                      <Heart className="text-red-500" />
+                    ) : (
+                      <HeartOff className="text-gray-400" />
+                    )}
+                  </Button>
+
                   <Link to={`/cars/${car._id}`}>
                     <Button size="sm" className="cursor-pointer">
                       Book Now

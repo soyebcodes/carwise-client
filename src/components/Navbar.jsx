@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { use } from "react";
 import ThemeToggle from "./ThemeToggle";
+import { HeartIcon } from "lucide-react";
 
 const Navbar = () => {
   const { user, logoutUser } = use(AuthContext);
@@ -60,6 +61,11 @@ const Navbar = () => {
             to: "/my-bookings",
             label: "My Bookings",
             icon: <CalendarCheck className="w-4 h-4 mr-2" />,
+          },
+          {
+            to: "/favorites",
+            label: "My Favorites",
+            icon: <HeartIcon className="w-4 h-4 mr-2" />,
           },
         ]
       : []),
