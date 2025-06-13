@@ -96,7 +96,7 @@ const CarRow = ({
                 </div>
                 <div>
                   <Label>Image URL</Label>
-                  <Input name="image" defaultValue={car.image} required />
+                  <Input name="imageUrl" defaultValue={car.imageUrl} required />
                 </div>
                 <div>
                   <Label>Location</Label>

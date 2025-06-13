@@ -15,6 +15,7 @@ import {
 import { Trash2, CalendarDays } from "lucide-react";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import Loading from "./Loading";
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
@@ -22,19 +23,27 @@ const MyBookings = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const [endDate, setEndDate] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchBookings = async () => {
     if (!user?.email) return;
-    const res = await axios.get(
-      `http://localhost:5000/my-bookings?email=${user.email}`
-    );
-    setBookings(res.data);
+
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/my-bookings?email=${user.email}`
+      );
+      setBookings(res.data);
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchBookings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleCancelBooking = async (bookingId) => {
@@ -83,12 +92,14 @@ const MyBookings = () => {
     }
   };
 
+  if (loading) return <Loading />;
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">My Bookings</h1>
       <div className="overflow-x-auto">
         <table className="w-full table-auto border">
-          <thead className="bg-gray-100 text-left">
+          <thead className="text-left">
             <tr>
               <th className="p-2 font-bold">Car Image</th>
               <th className="p-2 font-bold">Car Model</th>
@@ -100,7 +111,7 @@ const MyBookings = () => {
           </thead>
           <tbody>
             {bookings.map((b, i) => (
-              <tr key={i} className="border-t hover:bg-gray-50">
+              <tr key={i} className="border-t">
                 <td className="p-2">
                   <img
                     src={b.carImage}
@@ -116,7 +127,7 @@ const MyBookings = () => {
                 <td className="p-2">${b.totalPrice || b.pricePerDay}</td>
                 <td className="p-2">
                   <span
-                    className={`text-sm font-medium px-2 py-1 rounded ${
+                    className={`text-sm  font-medium px-2 py-1 rounded ${
                       b.status === "confirmed"
                         ? "bg-green-100 text-green-700"
                         : b.status === "pending"
@@ -127,7 +138,7 @@ const MyBookings = () => {
                     {b.status}
                   </span>
                 </td>
-                <td className="p-2 flex gap-2 items-center">
+                <td className="p-4 flex gap-2 items-center">
                   <Button
                     variant="destructive"
                     size="sm"

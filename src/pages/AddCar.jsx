@@ -27,10 +27,12 @@ const AddCar = () => {
       date: new Date(),
       bookingCount: 0,
     };
+
     try {
       const res = await axios.post("http://localhost:5000/cars", carData, {
         withCredentials: true,
       });
+
       if (res.data.insertedId) {
         toast.success("Car added successfully!");
         form.reset();
@@ -44,6 +46,7 @@ const AddCar = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h2 className="text-3xl font-bold text-center mb-6 text-primary">
@@ -84,6 +87,7 @@ const AddCar = () => {
           rows={4}
           required
         />
+
         <Button
           type="submit"
           className="col-span-full cursor-pointer"

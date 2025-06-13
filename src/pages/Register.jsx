@@ -76,12 +76,16 @@ const Register = () => {
           <Button className="w-full cursor-pointer">Register</Button>
         </form>
 
-        <p className="mt-4 text-sm text-center">
-          Already have an account?
-          <Link to="/login" className="text-blue-600 ml-1 hover:underline">
-            Login
+        <Button
+          variant="secondary"
+          className="w-full mt-4 justify-center text-sm"
+          asChild
+        >
+          <Link to="/login" className="w-full text-center">
+            Already have an account ?
+            <span className="text-blue-600 ml-1 ">Login</span>
           </Link>
-        </p>
+        </Button>
       </div>
     </div>
   );

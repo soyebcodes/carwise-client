@@ -28,6 +28,7 @@ const MyCars = () => {
   }, []);
 
   const fetchCars = async () => {
+    setLoading(true);
     try {
       const res = await axios.get("http://localhost:5000/my-cars", {
         withCredentials: true,
@@ -35,6 +36,8 @@ const MyCars = () => {
       setCars(res.data);
     } catch (error) {
       toast.error("Failed to fetch cars");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,6 +87,8 @@ const MyCars = () => {
     }
   };
 
+  if (loading) return <Loading />;
+
   if (cars.length === 0) {
     return (
       <div className="text-center mt-20">
@@ -94,8 +99,6 @@ const MyCars = () => {
       </div>
     );
   }
-
-  if (loading) return <Loading />;
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto overflow-x-auto">

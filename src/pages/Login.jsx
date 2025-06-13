@@ -127,12 +127,16 @@ const Login = () => {
             Continue with Google
           </Button>
 
-          <p className="text-sm text-center mt-4">
-            Don’t have an account?
-            <Link to="/register" className="text-blue-500 hover:underline">
-              Register here
+          <Button
+            variant="secondary"
+            className="w-full mt-4 justify-center text-sm"
+            asChild
+          >
+            <Link to="/login" className="w-full text-center">
+              Don’t have an account ?
+              <span className="text-blue-600 ml-1 ">Sign Up</span>
             </Link>
-          </p>
+          </Button>
         </CardContent>
       </Card>
     </div>
