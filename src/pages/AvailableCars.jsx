@@ -63,7 +63,7 @@ const AvailableCars = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <Input
             type="text"
             placeholder="Search by model, brand, or location"
@@ -73,20 +73,32 @@ const AvailableCars = () => {
           />
           <select
             onChange={(e) => setSortBy(e.target.value)}
-            className="border rounded px-2 py-1 text-sm"
+            className="border  rounded px-2 py-1 text-sm"
           >
-            <option value="">Sort By</option>
-            <option value="date">Date Added</option>
-            <option value="price">Price</option>
+            <option className="dark:text-white dark:bg-gray-900" value="">
+              Sort By
+            </option>
+            <option className="dark:text-white dark:bg-gray-900" value="date">
+              Date Added
+            </option>
+            <option className="dark:text-white dark:bg-gray-900" value="price">
+              Price
+            </option>
           </select>
 
           <select
             onChange={(e) => setOrder(e.target.value)}
             className="border rounded px-2 py-1 text-sm"
           >
-            <option value="">Order</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
+            <option className="dark:text-white dark:bg-gray-900" value="">
+              Order
+            </option>
+            <option className="dark:text-white dark:bg-gray-900" value="asc">
+              Ascending
+            </option>
+            <option className="dark:text-white dark:bg-gray-900" value="desc">
+              Descending
+            </option>
           </select>
 
           <Button variant="outline" onClick={() => setViewMode("grid")}>
