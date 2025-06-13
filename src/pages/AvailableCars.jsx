@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
 import { FaThList, FaThLarge, FaLocationArrow } from "react-icons/fa";
 import { Link } from "react-router";
@@ -12,6 +13,7 @@ const AvailableCars = () => {
   const [sortBy, setSortBy] = useState("");
   const [order, setOrder] = useState("");
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchCars = async () => {
     try {
@@ -26,10 +28,21 @@ const AvailableCars = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     setLoading(true);
     fetchCars();
   }, [sortBy, order]);
+
+  // search filter
+  const filteredCars = cars.filter((car) => {
+    const lower = searchTerm.toLowerCase();
+    return (
+      car.model.toLowerCase().includes(lower) ||
+      car.brand?.toLowerCase().includes(lower) ||
+      car.location.toLowerCase().includes(lower)
+    );
+  });
 
   if (loading) {
     return <Loading />;
@@ -39,6 +52,13 @@ const AvailableCars = () => {
     <div className="max-w-6xl mx-auto px-4 py-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
+          <Input
+            type="text"
+            placeholder="Search by model, brand, or location"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 md:w-64"
+          />
           <select
             onChange={(e) => setSortBy(e.target.value)}
             className="border rounded px-2 py-1 text-sm"
@@ -68,7 +88,7 @@ const AvailableCars = () => {
 
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cars.map((car) => (
+          {filteredCars.map((car) => (
             <Card key={car._id}>
               <img
                 src={car.imageUrl || car.image}
@@ -96,7 +116,7 @@ const AvailableCars = () => {
         </div>
       ) : (
         <div className="space-y-8">
-          {cars.map((car) => (
+          {filteredCars.map((car) => (
             <div
               key={car._id}
               className="flex items-start gap-10 p-4 border rounded-md shadow-sm"
