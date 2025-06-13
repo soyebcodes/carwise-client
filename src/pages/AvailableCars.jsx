@@ -14,6 +14,18 @@ const AvailableCars = () => {
   const [order, setOrder] = useState("");
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  // debounce function
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearchTerm(searchInput);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchInput]);
 
   const fetchCars = async () => {
     try {
@@ -55,8 +67,8 @@ const AvailableCars = () => {
           <Input
             type="text"
             placeholder="Search by model, brand, or location"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             className="p-2 md:w-64"
           />
           <select
