@@ -5,10 +5,11 @@ import { Textarea } from "../components/ui/textarea";
 import { Input } from "../components/ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const AddCar = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,10 +34,12 @@ const AddCar = () => {
       if (res.data.insertedId) {
         toast.success("Car added successfully!");
         form.reset();
-        Navigate("/my-cars");
+        navigate("/my-cars");
       }
     } catch (error) {
-      toast.error("Failed to add car.", error);
+      const errorMsg =
+        error?.response?.data?.message || error.message || "Failed to add car.";
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
