@@ -14,9 +14,12 @@ const Favorites = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/favorites", {
-          withCredentials: true,
-        });
+        const { data } = await axios.get(
+          "https://carwise-server.onrender.com/favorites",
+          {
+            withCredentials: true,
+          }
+        );
 
         setFavorites(data);
         setCars(data.map((fav) => fav.car));
@@ -32,9 +35,12 @@ const Favorites = () => {
 
   const removeFavorite = async (carId) => {
     try {
-      await axios.delete(`http://localhost:5000/favorites/${carId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://carwise-server.onrender.com/favorites/${carId}`,
+        {
+          withCredentials: true,
+        }
+      );
 
       setFavorites(favorites.filter((fav) => fav.carId !== carId));
       setCars(cars.filter((car) => car._id !== carId));

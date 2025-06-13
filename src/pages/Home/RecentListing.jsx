@@ -18,7 +18,7 @@ const RecentListing = () => {
   const [favoriteIds, setFavoriteIds] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/cars").then((res) => {
+    axios.get("https://carwise-server.onrender.com/cars").then((res) => {
       const sortedData = res.data.sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
@@ -31,9 +31,12 @@ const RecentListing = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/favorites", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://carwise-server.onrender.com/favorites",
+          {
+            withCredentials: true,
+          }
+        );
         const ids = res.data.map((fav) => fav.carId);
         setFavoriteIds(ids);
       } catch (error) {
@@ -47,7 +50,7 @@ const RecentListing = () => {
   const toggleFavorite = async (carId) => {
     try {
       const res = await axios.post(
-        `http://localhost:5000/favorites/${carId}`,
+        `https://carwise-server.onrender.com/favorites/${carId}`,
         {},
         {
           withCredentials: true,

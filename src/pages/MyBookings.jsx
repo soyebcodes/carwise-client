@@ -31,7 +31,7 @@ const MyBookings = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/my-bookings?email=${user.email}`
+        `https://carwise-server.onrender.com/my-bookings?email=${user.email}`
       );
       setBookings(res.data);
     } catch (error) {
@@ -54,7 +54,9 @@ const MyBookings = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.patch(`http://localhost:5000/bookings/${bookingId}/cancel`);
+      await axios.patch(
+        `https://carwise-server.onrender.com/bookings/${bookingId}/cancel`
+      );
       fetchBookings();
       Swal.fire({
         title: "Cencelled!",
@@ -74,7 +76,7 @@ const MyBookings = () => {
 
     try {
       await axios.patch(
-        `http://localhost:5000/bookings/${selectedBooking._id}`,
+        `https://carwise-server.onrender.com/bookings/${selectedBooking._id}`,
         {
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),

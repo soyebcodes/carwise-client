@@ -29,9 +29,13 @@ const AddCar = () => {
     };
 
     try {
-      const res = await axios.post("http://localhost:5000/cars", carData, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "https://carwise-server.onrender.com/cars",
+        carData,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.data.insertedId) {
         toast.success("Car added successfully!");

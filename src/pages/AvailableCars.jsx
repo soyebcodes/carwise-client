@@ -41,7 +41,7 @@ const AvailableCars = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/available-cars?sortBy=${sortBy}&order=${order}`
+        `https://carwise-server.onrender.com/available-cars?sortBy=${sortBy}&order=${order}`
       );
       setCars(res.data);
     } catch (error) {
@@ -70,9 +70,12 @@ const AvailableCars = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/favorites", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://carwise-server.onrender.com/favorites",
+          {
+            withCredentials: true,
+          }
+        );
         const ids = res.data.map((fav) => fav.carId);
         setFavoriteIds(ids);
       } catch (error) {
@@ -86,7 +89,7 @@ const AvailableCars = () => {
   const toggleFavorite = async (carId) => {
     try {
       const res = await axios.post(
-        `http://localhost:5000/favorites/${carId}`,
+        `https://carwise-server.onrender.com/favorites/${carId}`,
         {},
         {
           withCredentials: true,

@@ -44,7 +44,7 @@ const Login = () => {
 
       // send email backend to get the jwt and set cookie
       await axios.post(
-        "http://localhost:5000/jwt",
+        "https://carwise-server.onrender.com/jwt",
         { email: result.user.email },
         { withCredentials: true }
       );
@@ -67,7 +67,7 @@ const Login = () => {
 
         // send email to backend to recieve jwt in  cookie
         await axios.post(
-          "http://localhost:5000/jwt",
+          "https://carwise-server.onrender.com/jwt",
           { email: result.user.email },
           { withCredentials: true }
         );

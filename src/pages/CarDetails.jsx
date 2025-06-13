@@ -21,7 +21,7 @@ const CarDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/cars/${id}`)
+      .get(`https://carwise-server.onrender.com/cars/${id}`)
       .then((res) => setCar(res.data))
       .catch(() => toast.error("Failed to load car details"))
       .finally(() => setLoading(false));
@@ -51,7 +51,7 @@ const CarDetails = () => {
     };
 
     axios
-      .post("http://localhost:5000/bookings", bookingData)
+      .post("https://carwise-server.onrender.com/bookings", bookingData)
       .then(() => {
         toast.success("Booking confirmed!");
         setIsDialogOpen(false);

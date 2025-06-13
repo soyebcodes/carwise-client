@@ -30,9 +30,12 @@ const MyCars = () => {
   const fetchCars = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/my-cars", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://carwise-server.onrender.com/my-cars",
+        {
+          withCredentials: true,
+        }
+      );
       setCars(res.data);
     } catch (error) {
       toast.error("Failed to fetch cars");
@@ -43,7 +46,7 @@ const MyCars = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/cars/${id}`, {
+      await axios.delete(`https://carwise-server.onrender.com/cars/${id}`, {
         withCredentials: true,
       });
       setCars(cars.filter((car) => car._id !== id));
@@ -71,7 +74,7 @@ const MyCars = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/cars/${selectedCar._id}`,
+        `https://carwise-server.onrender.com/cars/${selectedCar._id}`,
         updatedCar,
         {
           withCredentials: true,
