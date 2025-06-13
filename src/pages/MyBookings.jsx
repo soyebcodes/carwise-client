@@ -96,7 +96,7 @@ const MyBookings = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">My Bookings</h1>
+      <h1 className="text-2xl text-center font-bold mb-6">My Bookings</h1>
       <div className="overflow-x-auto">
         <table className="w-full table-auto border">
           <thead className="text-left">
@@ -121,7 +121,7 @@ const MyBookings = () => {
                 </td>
                 <td className="p-2">{b.model}</td>
                 <td className="p-2">
-                  {format(new Date(b.startDate), "dd-MM-yyyy HH:mm")} →{" "}
+                  {format(new Date(b.startDate), "dd-MM-yyyy HH:mm")} →
                   {format(new Date(b.endDate), "dd-MM-yyyy HH:mm")}
                 </td>
                 <td className="p-2">${b.totalPrice || b.pricePerDay}</td>
@@ -164,26 +164,16 @@ const MyBookings = () => {
                       <Button
                         variant="outline"
                         size="sm"
+                        className="cursor-pointer"
                         onClick={() => {
                           setSelectedBooking(b);
                           setStartDate(new Date(b.startDate));
                           setEndDate(new Date(b.endDate));
+                          setDialogOpen(true);
                         }}
                       >
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="cursor-pointer"
-                          onClick={() => {
-                            setSelectedBooking(b);
-                            setStartDate(new Date(b.startDate));
-                            setEndDate(new Date(b.endDate));
-                            setDialogOpen(true);
-                          }}
-                        >
-                          <CalendarDays className="mr-1 w-4 h-4" />
-                          Modify Date
-                        </Button>
+                        <CalendarDays className="mr-1 w-4 h-4" />
+                        Modify Date
                       </Button>
                     </DialogTrigger>
 
@@ -217,7 +207,7 @@ const MyBookings = () => {
                         <Button
                           onClick={handleModifyDate}
                           disabled={!startDate || !endDate}
-                          className="w-full"
+                          className="w-full cursor-pointer"
                         >
                           Confirm New Dates
                         </Button>

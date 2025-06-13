@@ -75,12 +75,12 @@ const Navbar = () => {
   return (
     <nav className="bg-white dark:bg-gray-900 border-b shadow-sm">
       <div className="max-w-11/12 mx-auto px-4 py-3 flex items-center justify-between">
-        {/* loogo */}
+        {/* logo */}
         <NavLink
           to="/"
           className="text-xl font-bold text-sky-700 dark:text-sky-500"
         >
-          CarWise
+          <i>CarWise</i>
         </NavLink>
 
         {/* desktop menu */}

@@ -26,9 +26,9 @@ const CarRow = ({
     <TableRow key={car._id}>
       <TableCell>
         <img
-          src={car.image}
+          src={car.imageUrl || car.image}
           alt={car.model}
-          className="w-24 h-16 object-cover rounded"
+          className="w-26 h-16 object-cover rounded-2xl"
         />
       </TableCell>
       <TableCell>{car.model}</TableCell>
@@ -96,7 +96,11 @@ const CarRow = ({
                 </div>
                 <div>
                   <Label>Image URL</Label>
-                  <Input name="imageUrl" defaultValue={car.imageUrl} required />
+                  <Input
+                    name="imageUrl"
+                    defaultValue={car.imageUrl || car.image}
+                    required
+                  />
                 </div>
                 <div>
                   <Label>Location</Label>

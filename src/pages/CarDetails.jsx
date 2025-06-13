@@ -75,7 +75,7 @@ const CarDetails = () => {
       <img
         src={car.imageUrl}
         alt={car.model}
-        className="w-full h-64 object-cover rounded-md"
+        className="w-full h-full object-cover rounded-md"
       />
 
       <h2 className="text-3xl font-bold">{car.model}</h2>
@@ -93,15 +93,15 @@ const CarDetails = () => {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <Button
-            className="w-full bg-primary text-white mt-4 cursor-pointer"
+            className="w-full bg-primary  mt-4 cursor-pointer"
             onClick={() => setIsDialogOpen(true)}
           >
             Book Now
           </Button>
         </DialogTrigger>
         <DialogContent className="space-y-4">
-          <h3 className="text-xl font-semibold">Confirm Booking</h3>
-          <ul className="text-gray-700 space-y-1">
+          <h3 className="text-xl text-center font-semibold">Confirm Booking</h3>
+          <ul className="text-gray-700 dark:text-white space-y-1">
             <li>
               <strong>Car:</strong> {car.model}
             </li>

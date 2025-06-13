@@ -1,4 +1,5 @@
 import { Car, DollarSign, CalendarClock, Headphones } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -23,6 +24,20 @@ const features = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
 const WhyChooseUs = () => {
   return (
     <section className="py-12 bg-muted">
@@ -30,18 +45,26 @@ const WhyChooseUs = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-sky-700">
           Why Choose Us?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {features.map((item, index) => (
-            <div
+            <motion.div
               key={index}
               className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 text-center"
+              variants={cardVariants}
             >
               <div className="mb-4 flex justify-center">{item.icon}</div>
               <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
               <p className="text-muted-foreground">{item.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
