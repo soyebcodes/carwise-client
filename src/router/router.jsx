@@ -9,10 +9,12 @@ import AddCar from "../pages/AddCar";
 import MyCars from "../pages/MyCars";
 import PrivateRoute from "./PrivateRoute";
 import MyBookings from "../pages/MyBookings";
+import NotFound from "../components/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <NotFound />,
     Component: MainLayout,
     children: [
       {
