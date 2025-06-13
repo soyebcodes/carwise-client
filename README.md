@@ -1,12 +1,52 @@
-# React + Vite
+# CarWise Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CarWise is a full-stack car rental application. This is the **frontend** of the project, built using **React**, **Vite**, **Tailwind CSS**, **ShadCN UI**, and **Firebase Authentication**.
 
-Currently, two official plugins are available:
+🔗 **Live Site:** [https://carwise-soyeb.netlify.app](https://carwise-soyeb.netlify.app)  
+🔗 **Backend:** [https://carwise-server.onrender.com](https://carwise-server.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔐 Firebase Authentication (Email/Password & Google Sign-In)
+- 📦 Car listing (All, My Cars, Available Cars)
+- 📅 Booking cars with date and time pickers
+- ❤️ Add/remove favorites
+- ✏️ Update & delete own cars
+- 📘 My Bookings with modify/cancel options
+- 🎨 Beautiful UI using ShadCN + TailwindCSS
+- 📱 Fully responsive design
+- 🍪 JWT-based authentication with cookies
+
+---
+
+## 🧑‍💻 Tech Stack
+
+| Frontend      | Tools / Libraries       |
+| ------------- | ----------------------- |
+| Framework     | React + Vite            |
+| Styling       | Tailwind CSS            |
+| UI Components | ShadCN UI, Lucide Icons |
+| Auth          | Firebase (v9 modular)   |
+| HTTP Client   | Axios                   |
+| Routing       | React Router DOM        |
+| Package Mgr   | PNPM                    |
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js
+- PNPM (`npm i -g pnpm`)
+- Firebase Project (for Auth)
+
+### Steps
+
+```bash
+git clone https://github.com/your-username/carwise-frontend.git
+cd carwise-frontend
+pnpm install
+```
