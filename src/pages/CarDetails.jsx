@@ -3,18 +3,11 @@ import { useParams } from "react-router";
 import Loading from "./Loading";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Swal from "sweetalert2";
 import { use } from "react";
 import { AuthContext } from "../context/AuthContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
+import { Calendar } from "../components/ui/calendar"; // Adjust path if needed
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -23,6 +16,8 @@ const CarDetails = () => {
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
 
   useEffect(() => {
     axios
@@ -33,26 +28,26 @@ const CarDetails = () => {
   }, [id]);
 
   const handleBooking = () => {
-    if (!user) {
-      toast.error("You must be logged in to book a car.");
-      return;
+    if (!user) return toast.error("You must be logged in to book a car.");
+    if (!car) return toast.error("No car data available.");
+    if (!selectedStartDate || !selectedEndDate) {
+      return toast.error("Please select both start and end dates.");
     }
-
-    if (!car) {
-      toast.error("No car data available.");
-      return;
+    if (selectedEndDate <= selectedStartDate) {
+      return toast.error("End date must be after start date.");
     }
-    if (bookingLoading) return;
 
     setBookingLoading(true);
 
     const bookingData = {
       userEmail: user.email,
+      carImage: car.imageUrl,
       carId: car._id,
       model: car.model,
       location: car.location,
       pricePerDay: car.pricePerDay,
-      date: new Date(),
+      startDate: selectedStartDate.toISOString(),
+      endDate: selectedEndDate.toISOString(),
     };
 
     axios
@@ -60,6 +55,8 @@ const CarDetails = () => {
       .then(() => {
         toast.success("Booking confirmed!");
         setIsDialogOpen(false);
+        setSelectedStartDate(null);
+        setSelectedEndDate(null);
       })
       .catch((err) => {
         if (err.response?.status === 400) {
@@ -118,6 +115,30 @@ const CarDetails = () => {
               <strong>User:</strong> {user?.email}
             </li>
           </ul>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm font-medium mb-1">Start Date</p>
+              <Calendar
+                mode="single"
+                selected={selectedStartDate}
+                onSelect={setSelectedStartDate}
+                disabled={(date) => date < new Date()}
+              />
+            </div>
+            <div>
+              <p className="text-sm font-medium mb-1">End Date</p>
+              <Calendar
+                mode="single"
+                selected={selectedEndDate}
+                onSelect={setSelectedEndDate}
+                disabled={(date) =>
+                  !selectedStartDate || date <= selectedStartDate
+                }
+              />
+            </div>
+          </div>
+
           <Button
             onClick={handleBooking}
             className="bg-primary w-full cursor-pointer"

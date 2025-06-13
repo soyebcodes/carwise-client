@@ -1,69 +1,229 @@
-import React from "react";
-import { use } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Card } from "../components/ui/card";
+import { AuthContext } from "../context/AuthContext";
+import { format } from "date-fns";
+import { Button } from "../components/ui/button";
+import { Calendar } from "../components/ui/calendar";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../components/ui/dialog";
+import { Trash2, CalendarDays } from "lucide-react";
+import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import Loading from "./Loading";
 
 const MyBookings = () => {
-  const { user } = use(AuthContext);
+  const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [endDate, setEndDate] = useState(null);
+
+  const fetchBookings = async () => {
+    if (!user?.email) return;
+    const res = await axios.get(
+      `http://localhost:5000/my-bookings?email=${user.email}`
+    );
+    setBookings(res.data);
+  };
 
   useEffect(() => {
-    if (!user?.email) return;
-
-    axios
-      .get(`http://localhost:5000/my-bookings?email=${user.email}`, {
-        withCredentials: true,
-      })
-      .then((res) => setBookings(res.data))
-      .catch(() => toast.error("Failed to load bookings"))
-      .finally(() => setLoading(false));
+    fetchBookings();
   }, [user]);
 
-  if (loading) return <Loading />;
+  const handleCancelBooking = async (bookingId) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure you want to cancel this booking?",
+      showCancelButton: true,
+      confirmButtonText: "Yes, cancel it",
+    });
 
-  if (bookings.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-center">
-        <Card className="p-8">
-          <h2 className="text-xl font-semibold mb-2">No bookings found</h2>
-          <p>You haven't booked any cars yet.</p>
-        </Card>
-      </div>
-    );
-  }
+    if (confirm.isConfirmed) {
+      await axios.patch(`http://localhost:5000/bookings/${bookingId}/cancel`);
+      fetchBookings();
+      Swal.fire({
+        title: "Cencelled!",
+        text: "Your Booking has been canccelled!",
+        icon: "success",
+      });
+    }
+  };
+
+  const handleModifyDate = async () => {
+    if (!startDate || !endDate || !selectedBooking) return;
+
+    if (endDate <= startDate) {
+      toast.error("End date must be after start date.");
+      return;
+    }
+
+    try {
+      await axios.patch(
+        `http://localhost:5000/bookings/${selectedBooking._id}`,
+        {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        }
+      );
+      toast.success("Booking updated!");
+      fetchBookings();
+    } catch (error) {
+      toast.error("Failed to update booking", error);
+    } finally {
+      setDialogOpen(false);
+      setSelectedBooking(null);
+      setStartDate(null);
+      setEndDate(null);
+    }
+  };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Mmy Booking</h2>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">My Bookings</h1>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300 text-sm">
-          <thead className="bg-gray-100">
+        <table className="w-full table-auto border">
+          <thead className="bg-gray-100 text-left">
             <tr>
-              <th className="border px-4 py-2">Car model</th>
-              <th className="border px-4 py-2">location</th>
-              <th className="border px-4 py-2">Price/Day</th>
-              <th className="border px-4 py-2">Booking Date</th>
+              <th className="p-2 font-bold">Car Image</th>
+              <th className="p-2 font-bold">Car Model</th>
+              <th className="p-2 font-bold">Booking Date</th>
+              <th className="p-2 font-bold">Total Price</th>
+              <th className="p-2 font-bold">Status</th>
+              <th className="p-2 font-bold">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking) => (
-              <tr key={booking._id} className="text-center">
-                <td className="border px-4 py-2">{booking.model}</td>
-                <td className="border px-4 py-2">{booking.location}</td>
-                <td className="border px-4 py-2">${booking.pricePerDay}</td>
-                <td className="border px-4 py-2">
-                  {new Date(booking.date).toLocaleDateString()}
+            {bookings.map((b, i) => (
+              <tr key={i} className="border-t hover:bg-gray-50">
+                <td className="p-2">
+                  <img
+                    src={b.carImage}
+                    alt={b.model}
+                    className="w-20 h-12 object-cover rounded-full"
+                  />
+                </td>
+                <td className="p-2">{b.model}</td>
+                <td className="p-2">
+                  {format(new Date(b.startDate), "dd-MM-yyyy HH:mm")} →{" "}
+                  {format(new Date(b.endDate), "dd-MM-yyyy HH:mm")}
+                </td>
+                <td className="p-2">${b.totalPrice || b.pricePerDay}</td>
+                <td className="p-2">
+                  <span
+                    className={`text-sm font-medium px-2 py-1 rounded ${
+                      b.status === "confirmed"
+                        ? "bg-green-100 text-green-700"
+                        : b.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {b.status}
+                  </span>
+                </td>
+                <td className="p-2 flex gap-2 items-center">
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="cursor-pointer"
+                    onClick={() => handleCancelBooking(b._id)}
+                  >
+                    <Trash2 className="mr-1 w-4 h-4" />
+                    Cancel
+                  </Button>
+
+                  <Dialog
+                    open={dialogOpen}
+                    onOpenChange={(isOpen) => {
+                      setDialogOpen(isOpen);
+                      if (!isOpen) {
+                        setSelectedBooking(null);
+                        setStartDate(null);
+                        setEndDate(null);
+                      }
+                    }}
+                  >
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedBooking(b);
+                          setStartDate(new Date(b.startDate));
+                          setEndDate(new Date(b.endDate));
+                        }}
+                      >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="cursor-pointer"
+                          onClick={() => {
+                            setSelectedBooking(b);
+                            setStartDate(new Date(b.startDate));
+                            setEndDate(new Date(b.endDate));
+                            setDialogOpen(true);
+                          }}
+                        >
+                          <CalendarDays className="mr-1 w-4 h-4" />
+                          Modify Date
+                        </Button>
+                      </Button>
+                    </DialogTrigger>
+
+                    <DialogContent className="space-y-4 w-full">
+                      <DialogHeader>
+                        <DialogTitle>Modify Booking Date</DialogTitle>
+                      </DialogHeader>
+
+                      {/* Responsive grid: 1 column on mobile, 2 on md+ */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <p className="font-medium mb-1">New Start Date</p>
+                          <Calendar
+                            mode="single"
+                            selected={startDate}
+                            onSelect={setStartDate}
+                          />
+                        </div>
+
+                        <div>
+                          <p className="font-medium mb-1">New End Date</p>
+                          <Calendar
+                            mode="single"
+                            selected={endDate}
+                            onSelect={setEndDate}
+                          />
+                        </div>
+                      </div>
+
+                      <DialogFooter>
+                        <Button
+                          onClick={handleModifyDate}
+                          disabled={!startDate || !endDate}
+                          className="w-full"
+                        >
+                          Confirm New Dates
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {!bookings.length && (
+          <p className="text-center mt-8 text-muted-foreground">
+            No bookings found.
+          </p>
+        )}
       </div>
     </div>
   );
