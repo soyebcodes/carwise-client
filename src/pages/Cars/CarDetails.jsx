@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import Loading from "./Loading";
+import Loading from "../../components/Loading";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { use } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { Dialog, DialogContent, DialogTrigger } from "../components/ui/dialog";
-import { Button } from "../components/ui/button";
-import { Calendar } from "../components/ui/calendar"; // Adjust path if needed
+import { AuthContext } from "../../context/AuthContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "../../components/ui/dialog";
+import { Button } from "../../components/ui/button";
+import { Calendar } from "../../components/ui/calendar"; // Adjust path if needed
 
 const CarDetails = () => {
   const { id } = useParams();

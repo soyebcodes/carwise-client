@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Card, CardContent } from "../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Card, CardContent } from "../../components/ui/card";
 import { FaThList, FaThLarge, FaLocationArrow } from "react-icons/fa";
 import { Link } from "react-router";
-import Loading from "./Loading";
+import Loading from "../../components/Loading";
 import toast from "react-hot-toast";
 import { HeartOff } from "lucide-react";
 import { Heart } from "lucide-react";
@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../components/ui/tooltip";
+} from "../../components/ui/tooltip";
 
 const AvailableCars = () => {
   const [cars, setCars] = useState([]);

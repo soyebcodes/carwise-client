@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { format } from "date-fns";
-import { Button } from "../components/ui/button";
-import { Calendar } from "../components/ui/calendar";
+import { Button } from "../../components/ui/button";
+import { Calendar } from "../../components/ui/calendar";
 import {
   Dialog,
   DialogTrigger,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "../components/ui/dialog";
+} from "../../components/ui/dialog";
 import { Trash2, CalendarDays } from "lucide-react";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";

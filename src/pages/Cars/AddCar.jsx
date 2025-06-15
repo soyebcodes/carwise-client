@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { Button } from "../components/ui/button";
-import { Textarea } from "../components/ui/textarea";
-import { Input } from "../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Textarea } from "../../components/ui/textarea";
+import { Input } from "../../components/ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";

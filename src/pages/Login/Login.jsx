@@ -6,20 +6,20 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
+} from "../../components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { AuthContext } from "../context/AuthContext";
-import auth from "../firebase/firebase.config";
+import { AuthContext } from "../../context/AuthContext";
+import auth from "../../firebase/firebase.config";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
-import loginAnimation from "../assets/lottie-animations/login-animation.json";
+import loginAnimation from "../../assets/lottie-animations/login-animation.json";
 import axios from "axios";
 
 const Login = () => {

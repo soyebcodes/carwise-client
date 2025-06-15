@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import auth from "../firebase/firebase.config";
+import auth from "../../firebase/firebase.config";
 import toast from "react-hot-toast";
-import registerAnimation from "../assets/lottie-animations/register-animation.json";
+import registerAnimation from "../../assets/lottie-animations/register-animation.json";
 import Lottie from "lottie-react";
 
 const Register = () => {
