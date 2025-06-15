@@ -132,7 +132,7 @@ const Login = () => {
             className="w-full mt-4 justify-center text-sm"
             asChild
           >
-            <Link to="/login" className="w-full text-center">
+            <Link to="/sign-up" className="w-full text-center">
               Don’t have an account ?
               <span className="text-blue-600 ml-1 ">Sign Up</span>
             </Link>
