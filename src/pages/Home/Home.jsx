@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import Loading from "../../components/Loading";
 import SpecialOffers from "../SpecialOffers/SpecialOffers";
 import HowItWorks from "./HowItWorks";
+import Testimonials from "./Testimonial";
 
 const Home = () => {
   return (
@@ -16,8 +17,8 @@ const Home = () => {
       </Suspense>
       <HowItWorks />
       <WhyChooseUs />
-
       <SpecialOffers />
+      <Testimonials />
     </div>
   );
 };

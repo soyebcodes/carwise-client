@@ -72,7 +72,9 @@ const WhyChooseUs = () => {
             >
               <div className="mb-4 flex justify-center">{item.icon}</div>
               <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-              <p className="text-muted-foreground">{item.desc}</p>
+              <p className="text-muted-foreground dark:text-white">
+                {item.desc}
+              </p>
             </motion.div>
           ))}
         </motion.div>

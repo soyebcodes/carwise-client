@@ -23,9 +23,9 @@ const steps = [
 export default function HowItWorks() {
   return (
     <section className="py-16 ">
-      <div className="max-w-6xl mx-auto px-4 text-center text-sky-700">
+      <div className="max-w-6xl mx-auto px-4 text-center text-sky-700 ">
         <motion.h2
-          className="text-3xl font-bold mb-4"
+          className="text-3xl font-bold mb-4 "
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -33,7 +33,7 @@ export default function HowItWorks() {
           How It Works
         </motion.h2>
         <motion.p
-          className="text-gray-600 mb-10"
+          className="text-gray-600 mb-10 dark:text-white"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
@@ -53,7 +53,9 @@ export default function HowItWorks() {
                 <CardContent className="flex flex-col items-center text-center">
                   {step.icon}
                   <h3 className="mt-4 text-xl font-semibold">{step.title}</h3>
-                  <p className="text-gray-500 mt-2">{step.description}</p>
+                  <p className="text-gray-500 mt-2 dark:text-white">
+                    {step.description}
+                  </p>
                 </CardContent>
               </Card>
             </motion.div>
