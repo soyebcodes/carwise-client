@@ -22,7 +22,7 @@ const RecentListing = () => {
       const sortedData = res.data.sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
-      setCars(sortedData.slice(0, 6));
+      setCars(sortedData.slice(0, 8));
       setLoading(false);
     });
   }, []);
