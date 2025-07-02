@@ -12,10 +12,11 @@ const Home = () => {
   return (
     <div>
       <Banner />
+
+      <HowItWorks />
       <Suspense fallback={Loading}>
         <RecentListing />
       </Suspense>
-      <HowItWorks />
       <WhyChooseUs />
       <SpecialOffers />
       <Testimonials />
