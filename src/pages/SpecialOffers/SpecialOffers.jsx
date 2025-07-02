@@ -28,20 +28,53 @@ const offers = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const titleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
 const SpecialOffers = () => {
   return (
-    <div className="max-w-11/12 mx-auto py-16 px-4 md:px-10">
-      <h2 className="text-3xl font-bold text-center mb-10">
+    <div className="max-w-7xl mx-auto py-16 px-4 md:px-10">
+      <motion.h2
+        className="text-3xl font-bold text-center mb-10"
+        variants={titleVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         🎁 Special Offers
-      </h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {offers.map((offer, index) => (
+      </motion.h2>
+
+      <motion.div
+        className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        {offers.map((offer) => (
           <motion.div
             key={offer.id}
-            initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            variants={cardVariants}
             className={`text-white p-6 rounded-xl shadow-lg ${offer.bg}`}
           >
             <h3 className="text-xl font-semibold mb-2">{offer.title}</h3>
@@ -51,7 +84,7 @@ const SpecialOffers = () => {
             </button>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

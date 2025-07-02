@@ -79,7 +79,7 @@ const Navbar = () => {
     }`;
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b shadow-sm">
+    <nav className="bg-white sticky left-0 top-0 z-50 dark:bg-gray-900 border-b shadow-sm">
       <div className="max-w-11/12 mx-auto px-4 py-3 flex items-center justify-between">
         {/* logo */}
         <NavLink

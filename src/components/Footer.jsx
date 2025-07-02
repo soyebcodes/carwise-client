@@ -19,32 +19,32 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Facebook className="w-5 h-5 text-gray-600 hover:text-blue-600" />
+            <Facebook className="w-5 h-5 text-gray-600 hover:text-blue-600 dark:text-white" />
           </a>
           <a
             href="https://x.com/soyebislam_1"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Twitter className="w-5 h-5 text-gray-600 hover:text-sky-500" />
+            <Twitter className="w-5 h-5 text-gray-600 hover:text-sky-500 dark:text-white" />
           </a>
           <a
             href="https://www.instagram.com/code_shoaib/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Instagram className="w-5 h-5 text-gray-600 hover:text-pink-500" />
+            <Instagram className="w-5 h-5 text-gray-600 hover:text-pink-500 dark:text-white" />
           </a>
           <a
             href="https://www.linkedin.com/in/md-soyeb-islam-285a00363/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Linkedin className="w-5 h-5 text-gray-600 hover:text-pink-500" />
+            <Linkedin className="w-5 h-5 text-gray-600 hover:text-pink-500 dark:text-white" />
           </a>
         </div>
 
-        <p className="text-sm text-gray-500 text-center md:text-right">
+        <p className="text-sm text-gray-500 text-center md:text-right dark:text-white">
           © {new Date().getFullYear()} CarWise. All rights reserved.
         </p>
       </div>
