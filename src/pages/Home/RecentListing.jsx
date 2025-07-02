@@ -121,7 +121,7 @@ const RecentListing = () => {
         Recent Listings
       </motion.h2>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ">
         {cars.map((car, i) => (
           <motion.div
             key={car._id}

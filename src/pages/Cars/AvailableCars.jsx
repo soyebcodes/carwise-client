@@ -113,7 +113,7 @@ const AvailableCars = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <div className="flex items-center gap-3 ">
           <Input
@@ -163,7 +163,7 @@ const AvailableCars = () => {
       </div>
 
       {viewMode === "grid" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredCars.map((car) => (
             <Card key={car._id} className="relative">
               <img
