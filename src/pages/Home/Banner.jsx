@@ -7,7 +7,7 @@ import bannerImg from "../../assets/images/banner-img2.jpg";
 const Banner = () => {
   return (
     <section
-      className="max-w-11/12 mx-auto relative h-[35vh] md:h-[50vh] lg:h-[70vh] xl:h-[70vh] w-full bg-cover bg-center bg-no-repeat flex items-center justify-center text-white text-center rounded-2xl my-7"
+      className="max-w-11/12 mx-auto relative h-[35vh] md:h-[50vh] lg:h-[65vh] xl:h-[70vh] w-full bg-cover bg-center bg-no-repeat flex items-center justify-center text-white text-center rounded-2xl my-7"
       style={{
         backgroundImage: `url(${bannerImg})`,
       }}
