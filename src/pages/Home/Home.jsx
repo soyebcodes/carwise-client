@@ -2,9 +2,9 @@ import React from "react";
 import Banner from "./Banner";
 import WhyChooseUs from "./WhyChooseUs";
 import RecentListing from "./RecentListing";
-import SpecialOffers from "../SpecialOffers";
 import { Suspense } from "react";
-import Loading from "../Loading";
+import Loading from "../../components/Loading";
+import SpecialOffers from "../SpecialOffers/SpecialOffers";
 
 const Home = () => {
   return (

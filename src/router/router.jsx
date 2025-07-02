@@ -1,16 +1,16 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
 import Home from "../pages/Home/Home";
-import AvailableCars from "../pages/AvailableCars";
-import CarDetails from "../pages/CarDetails";
-import AddCar from "../pages/AddCar";
-import MyCars from "../pages/MyCars";
+import AvailableCars from "../pages/Cars/AvailableCars";
+import CarDetails from "../pages/Cars/CarDetails";
+import AddCar from "../pages/Cars/AddCar";
+import MyCars from "../pages/Cars/MyCars";
 import PrivateRoute from "./PrivateRoute";
-import MyBookings from "../pages/MyBookings";
+import MyBookings from "../pages/MyBookings/MyBookings";
 import NotFound from "../components/NotFound";
-import Favorites from "../pages/Favorites";
+import Favorites from "../pages/Favorites/Favorites";
 
 const router = createBrowserRouter([
   {

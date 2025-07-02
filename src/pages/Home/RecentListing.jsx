@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Loading from "../Loading";
+import Loading from "../../components/Loading";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Heart, HeartOff } from "lucide-react";

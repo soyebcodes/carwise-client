@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Button } from "../../components/ui/button";
 import { HeartOff } from "lucide-react";
 import { Link } from "react-router";
-import Loading from "./Loading";
+import Loading from "../../components/Loading";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);

@@ -15,7 +15,7 @@ import {
 import { Trash2, CalendarDays } from "lucide-react";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import Loading from "./Loading";
+import Loading from "../../components/Loading";
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
