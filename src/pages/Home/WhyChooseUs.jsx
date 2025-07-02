@@ -38,20 +38,31 @@ const cardVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
+const textVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
 const WhyChooseUs = () => {
   return (
-    <section className="py-12 bg-muted">
+    <section className="py-16 bg-muted">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-sky-700">
+        <motion.h2
+          className="text-3xl md:text-4xl font-bold text-center mb-10 text-sky-700"
+          variants={textVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           Why Choose Us?
-        </h2>
+        </motion.h2>
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.3 }}
         >
           {features.map((item, index) => (
             <motion.div
