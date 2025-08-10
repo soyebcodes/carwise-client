@@ -1,11 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { Button } from "../../components/ui/button";
-import { Textarea } from "../../components/ui/textarea";
 import { Input } from "../../components/ui/input";
+import { Textarea } from "../../components/ui/textarea";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
 
 const AddCar = () => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ const AddCar = () => {
       pricePerDay: parseFloat(form.price.value),
       availability: form.availability.value.toLowerCase(),
       registrationNumber: form.registration.value,
-      features: form.features.value.split(",").map((f) => f.trim()),
+      features: form.features.value.split(",").map((feature) => feature.trim()),
       description: form.description.value,
       image: form.image.value,
       location: form.location.value,
@@ -32,9 +31,7 @@ const AddCar = () => {
       const res = await axios.post(
         "https://carwise-server.onrender.com/cars",
         carData,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       if (res.data.insertedId) {
@@ -52,18 +49,21 @@ const AddCar = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold text-center mb-6 text-primary">
-        Add a new car
+    <div className="max-w-3xl mx-auto px-6 py-12 bg-background rounded-lg shadow-md border border-border">
+      <h2 className="text-3xl font-bold text-center mb-8 text-primary">
+        Add a New Car
       </h2>
+
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         <Input name="model" placeholder="Car Model" required />
         <Input
           name="price"
           type="number"
+          min="0"
+          step="0.01"
           placeholder="Daily Rental Price"
           required
         />
@@ -74,7 +74,7 @@ const AddCar = () => {
         />
         <Input
           name="registration"
-          placeholder="Vehicale Registration Number"
+          placeholder="Vehicle Registration Number"
           required
         />
         <Input
@@ -86,16 +86,17 @@ const AddCar = () => {
         <Input name="location" placeholder="Location" required />
         <Textarea
           name="description"
-          className="border p-2 rounded-md col-span-full"
           placeholder="Description"
           rows={4}
           required
+          className="col-span-full resize-none"
         />
 
         <Button
           type="submit"
-          className="col-span-full cursor-pointer"
+          className="col-span-full"
           disabled={loading}
+          size="lg"
         >
           {loading ? "Adding..." : "Add Car"}
         </Button>
