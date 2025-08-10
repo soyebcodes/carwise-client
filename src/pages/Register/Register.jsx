@@ -45,47 +45,69 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-muted p-6 gap-10">
-      {/* Lottie animation */}
-      <div className="w-full max-w-md">
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-muted px-6 py-10 gap-10">
+      {/* Animation Section */}
+      <div className="w-full max-w-md flex justify-center">
         <Lottie
           animationData={registerAnimation}
-          loop={true}
+          loop
           className="w-full max-h-[350px] object-contain"
         />
       </div>
 
-      <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-center text-primary mb-6">
-          Register to CarWise
+      {/* Form Section */}
+      <div className="w-full max-w-md bg-background shadow-lg rounded-xl p-8 border">
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Create Your Account
         </h2>
 
         <form onSubmit={handleRegister} className="space-y-4">
-          <Input type="text" name="name" placeholder="Name" required />
-          <Input type="email" name="email" placeholder="Email" required />
-          <Input type="text" name="photoURL" placeholder="Photo URL" required />
-          <Input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-          />
+          <div className="space-y-2">
+            <Input type="text" name="name" placeholder="Full Name" required />
+          </div>
+          <div className="space-y-2">
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Input
+              type="text"
+              name="photoURL"
+              placeholder="Profile Photo URL"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
-          <Button className="w-full cursor-pointer">Register</Button>
+          <Button className="w-full" size="lg">
+            Register
+          </Button>
         </form>
 
-        <Button
-          variant="secondary"
-          className="w-full mt-4 justify-center text-sm"
-          asChild
-        >
-          <Link to="/login" className="w-full text-center">
-            Already have an account ?
-            <span className="text-blue-600 ml-1 ">Login</span>
-          </Link>
-        </Button>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-primary font-medium hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
