@@ -28,7 +28,6 @@ const MyBookings = () => {
 
   const fetchBookings = async () => {
     if (!user?.email) return;
-
     try {
       const res = await axios.get(
         `https://carwise-server.onrender.com/my-bookings?email=${user.email}`
@@ -48,9 +47,12 @@ const MyBookings = () => {
 
   const handleCancelBooking = async (bookingId) => {
     const confirm = await Swal.fire({
-      title: "Are you sure you want to cancel this booking?",
+      title: "Cancel booking?",
+      text: "This action cannot be undone.",
+      icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, cancel it",
+      cancelButtonText: "No, keep it",
     });
 
     if (confirm.isConfirmed) {
@@ -58,17 +60,12 @@ const MyBookings = () => {
         `https://carwise-server.onrender.com/bookings/${bookingId}/cancel`
       );
       fetchBookings();
-      Swal.fire({
-        title: "Cencelled!",
-        text: "Your Booking has been canccelled!",
-        icon: "success",
-      });
+      Swal.fire("Cancelled!", "Your booking has been cancelled.", "success");
     }
   };
 
   const handleModifyDate = async () => {
     if (!startDate || !endDate || !selectedBooking) return;
-
     if (endDate <= startDate) {
       toast.error("End date must be after start date.");
       return;
@@ -84,8 +81,8 @@ const MyBookings = () => {
       );
       toast.success("Booking updated!");
       fetchBookings();
-    } catch (error) {
-      toast.error("Failed to update booking", error);
+    } catch {
+      toast.error("Failed to update booking");
     } finally {
       setDialogOpen(false);
       setSelectedBooking(null);
@@ -98,38 +95,44 @@ const MyBookings = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl text-center font-bold mb-6">My Bookings</h1>
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto border">
-          <thead className="text-left">
+      <h1 className="text-3xl font-bold text-center mb-8">My Bookings</h1>
+
+      <div className="overflow-x-auto rounded-lg border shadow-sm">
+        <table className="w-full border-collapse">
+          <thead className="bg-muted/50">
             <tr>
-              <th className="p-2 font-bold">Car Image</th>
-              <th className="p-2 font-bold">Car Model</th>
-              <th className="p-2 font-bold">Booking Date</th>
-              <th className="p-2 font-bold">Total Price</th>
-              <th className="p-2 font-bold">Status</th>
-              <th className="p-2 font-bold">Actions</th>
+              <th className="p-3 text-left font-semibold">Car</th>
+              <th className="p-3 text-left font-semibold">Model</th>
+              <th className="p-3 text-left font-semibold">Booking Date</th>
+              <th className="p-3 text-left font-semibold">Price</th>
+              <th className="p-3 text-left font-semibold">Status</th>
+              <th className="p-3 text-left font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody>
             {bookings.map((b, i) => (
-              <tr key={i} className="border-t">
-                <td className="p-2">
+              <tr
+                key={i}
+                className="border-t hover:bg-muted/30 transition-colors"
+              >
+                <td className="p-3">
                   <img
                     src={b.carImage}
                     alt={b.model}
-                    className="w-20 h-12 object-cover rounded-full"
+                    className="w-20 h-12 object-cover rounded-md border"
                   />
                 </td>
-                <td className="p-2">{b.model}</td>
-                <td className="p-2">
-                  {format(new Date(b.startDate), "dd-MM-yyyy HH:mm")} →
+                <td className="p-3 font-medium">{b.model}</td>
+                <td className="p-3 text-sm">
+                  {format(new Date(b.startDate), "dd-MM-yyyy HH:mm")} →{" "}
                   {format(new Date(b.endDate), "dd-MM-yyyy HH:mm")}
                 </td>
-                <td className="p-2">${b.totalPrice || b.pricePerDay}</td>
-                <td className="p-2">
+                <td className="p-3 font-semibold">
+                  ${b.totalPrice || b.pricePerDay}
+                </td>
+                <td className="p-3">
                   <span
-                    className={`text-sm  font-medium px-2 py-1 rounded ${
+                    className={`px-2 py-1 text-xs font-medium rounded-full ${
                       b.status === "confirmed"
                         ? "bg-green-100 text-green-700"
                         : b.status === "pending"
@@ -140,11 +143,10 @@ const MyBookings = () => {
                     {b.status}
                   </span>
                 </td>
-                <td className="p-4 flex gap-2 items-center">
+                <td className="p-3 flex flex-wrap gap-2">
                   <Button
                     variant="destructive"
                     size="sm"
-                    className="cursor-pointer"
                     onClick={() => handleCancelBooking(b._id)}
                   >
                     <Trash2 className="mr-1 w-4 h-4" />
@@ -166,7 +168,6 @@ const MyBookings = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="cursor-pointer"
                         onClick={() => {
                           setSelectedBooking(b);
                           setStartDate(new Date(b.startDate));
@@ -179,24 +180,24 @@ const MyBookings = () => {
                       </Button>
                     </DialogTrigger>
 
-                    <DialogContent className="space-y-4 w-full">
+                    <DialogContent className="max-w-lg space-y-6">
                       <DialogHeader>
-                        <DialogTitle>Modify Booking Date</DialogTitle>
+                        <DialogTitle className="text-lg font-semibold">
+                          Modify Booking Dates
+                        </DialogTitle>
                       </DialogHeader>
 
-                      {/* Responsive grid: 1 column on mobile, 2 on md+ */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <p className="font-medium mb-1">New Start Date</p>
+                          <p className="font-medium mb-2">New Start Date</p>
                           <Calendar
                             mode="single"
                             selected={startDate}
                             onSelect={setStartDate}
                           />
                         </div>
-
                         <div>
-                          <p className="font-medium mb-1">New End Date</p>
+                          <p className="font-medium mb-2">New End Date</p>
                           <Calendar
                             mode="single"
                             selected={endDate}
@@ -209,7 +210,7 @@ const MyBookings = () => {
                         <Button
                           onClick={handleModifyDate}
                           disabled={!startDate || !endDate}
-                          className="w-full cursor-pointer"
+                          className="w-full"
                         >
                           Confirm New Dates
                         </Button>
@@ -223,9 +224,10 @@ const MyBookings = () => {
         </table>
 
         {!bookings.length && (
-          <p className="text-center mt-8 text-muted-foreground">
-            No bookings found.
-          </p>
+          <div className="py-10 text-center text-muted-foreground">
+            <p className="text-lg font-medium">No bookings found</p>
+            <p className="text-sm">Once you book a car, it will appear here.</p>
+          </div>
         )}
       </div>
     </div>
