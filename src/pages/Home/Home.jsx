@@ -12,7 +12,6 @@ const Home = () => {
   return (
     <div>
       <Banner />
-
       <HowItWorks />
       <Suspense fallback={Loading}>
         <RecentListing />
