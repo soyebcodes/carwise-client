@@ -13,6 +13,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "../../components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { AuthContext } from "../../context/AuthContext";
@@ -42,7 +43,7 @@ const Login = () => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
 
-      // send email backend to get the jwt and set cookie
+      // Send email to backend to get JWT and set cookie
       await axios.post(
         "https://carwise-server.onrender.com/jwt",
         { email: result.user.email },
@@ -65,7 +66,7 @@ const Login = () => {
         toast.success("Google Login successful!");
         setUser(result.user);
 
-        // send email to backend to recieve jwt in  cookie
+        // Send email to backend to receive JWT in cookie
         await axios.post(
           "https://carwise-server.onrender.com/jwt",
           { email: result.user.email },
@@ -79,20 +80,33 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-muted p-6 gap-6">
-      <div className="w-full max-w-md">
-        <Lottie animationData={loginAnimation} loop={true} />
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-muted px-6 py-10 gap-8">
+      {/* Animation */}
+      <div className="w-full max-w-md flex justify-center">
+        <Lottie
+          animationData={loginAnimation}
+          loop
+          className="w-full max-h-[350px] object-contain"
+        />
       </div>
 
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl">
-            Login to CarWise
-          </CardTitle>
+      {/* Login Card */}
+      <Card className="w-full max-w-md border shadow-lg rounded-xl">
+        <CardHeader className="space-y-1 text-center">
+          <CardTitle className="text-3xl font-bold">Login to CarWise</CardTitle>
+          <CardDescription>
+            Enter your credentials to access your account
+          </CardDescription>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
-            <Input ref={emailRef} type="email" placeholder="Email" required />
+            <Input
+              ref={emailRef}
+              type="email"
+              placeholder="Email Address"
+              required
+            />
             <Input
               ref={passwordRef}
               type="password"
@@ -102,15 +116,16 @@ const Login = () => {
             <div className="text-right text-sm">
               <Link
                 to="/forget-password"
-                className="hover:underline text-blue-500"
+                className="text-primary hover:underline"
               >
                 Forgot password?
               </Link>
             </div>
             <Button
               type="submit"
-              className="w-full cursor-pointer"
+              className="w-full"
               disabled={loading}
+              size="lg"
             >
               {loading ? "Logging in..." : "Login"}
             </Button>
@@ -120,23 +135,24 @@ const Login = () => {
 
           <Button
             variant="outline"
-            className="w-full cursor-pointer"
+            className="w-full"
             onClick={handleGoogleLogin}
           >
             <FaGoogle className="mr-2" />
             Continue with Google
           </Button>
 
-          <Button
-            variant="secondary"
-            className="w-full mt-4 justify-center text-sm"
-            asChild
-          >
-            <Link to="/register" className="w-full text-center">
-              Don’t have an account ?
-              <span className="text-blue-600 ml-1 ">Sign Up</span>
-            </Link>
-          </Button>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Don’t have an account?{" "}
+              <Link
+                to="/register"
+                className="text-primary font-medium hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
